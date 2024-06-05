@@ -1,0 +1,35 @@
+<mat-card class="cards">
+  <mat-card-header class="card-headers">
+    <mat-card-title>
+      <h1>Add new Contract</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="forms" [formGroup]="contractForm">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Project ID" formControlName="projectId">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="On Site Rate" formControlName="onSiteRate">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Remote Rate" formControlName="remoteRate">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Start Date" formControlName="startDate">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="End Date" formControlName="endDate">
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button class="btns" mat-raised-button color="primary"
+    *ngIf="contractForm.touched && contractForm.valid" (click)="addContract()">
+      Add
+    </button>
+    <button class="btns" mat-button color="alert" (click)="clear()">
+      Cancel
+    </button>
+  </mat-card-actions>
+</mat-card>
