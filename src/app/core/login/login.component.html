@@ -1,0 +1,13 @@
+<div class="welcomeArea">
+  <h2 *ngIf="userProfile">Hi {{userProfile.firstName}}</h2>
+</div>
+
+<div>
+  <button mat-raised-button color="primary" (click)="addRecruiter()">
+    Add Recruiter
+  </button>
+  <button mat-raised-button color="primary" (click)="addContract()">
+    Add Contract
+  </button>
+</div>
+
