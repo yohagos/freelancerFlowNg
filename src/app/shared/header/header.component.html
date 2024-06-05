@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+    <button
+      *ngIf="showBackArrow"
+      class="backArrow"
+      mat-icon-button
+      (click)="backToLogin()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button class="palette" mat-icon-button (click)="setTheme()">
+      <mat-icon>palette</mat-icon>
+    </button>
+    <button class="logout" mat-icon-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+</mat-toolbar>
