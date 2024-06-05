@@ -1,0 +1,36 @@
+<mat-card class="cards">
+  <mat-card-header class="card-headers">
+    <mat-card-title>
+      <h2>Edit Recruiter</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="forms" [formGroup]="recruiterForm">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Agency" formControlName="agency">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Fullname" formControlName="name">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Email" formControlName="email">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Phone" formControlName="phone">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Website" formControlName="website">
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button class="btns" mat-raised-button
+      color="primary"
+      *ngIf="recruiterForm.touched && recruiterForm.valid">
+      Add
+    </button>
+    <button (click)="cancel()" class="btns" mat-button color="alert">
+      Cancel
+    </button>
+  </mat-card-actions>
+</mat-card>
