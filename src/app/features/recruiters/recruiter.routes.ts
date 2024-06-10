@@ -2,7 +2,7 @@ import { Routes } from "@angular/router";
 import { AddRecruiterComponent } from "./add-recruiter/add-recruiter.component";
 import { authGuard } from "../../core/auth-guard/auth.guard";
 import { RecruitersComponent } from "./recruiters.component";
-import { OverviewComponent } from "./overview/overview.component";
+import { OverviewComponent } from "./overview-recruiters/overview.component";
 import { EditRecruiterComponent } from "./edit-recruiter/edit-recruiter.component";
 
 
