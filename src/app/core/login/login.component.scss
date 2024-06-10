@@ -1,3 +1,69 @@
 .welcomeArea {
   margin: 2em;
 }
+
+.areas {
+  width: 97%;
+  display: flex;
+  justify-content: center;
+}
+
+section {
+  margin: 1.5em;
+}
+
+mat-card {
+  width: 80%;
+}
+
+mat-card .area-content {
+  width: 80%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+}
+
+.area-btns {
+  margin: 0.34em;
+  margin-bottom: 0;
+  padding: 1.7em;
+}
+
+.left-section {
+  width: 32%;
+  float: left;
+}
+
+.right-section {
+  width: 32%;
+  float: left;
+}
+
+.empty-response {
+  display: flex;
+  justify-content: center;
+}
+
+.info-bolder {
+  font-weight: bolder;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.left-column, .middle-column, .right-column {
+  padding: 10px;
+}
+
+.right-column {
+  float: right;
+}
+

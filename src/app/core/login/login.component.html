@@ -1,13 +1,72 @@
-<div class="welcomeArea">
-  <h2 *ngIf="userProfile">Hi {{userProfile.firstName}}</h2>
-</div>
+<section class="areas">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Areas</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="areas-content">
+      <button mat-raised-button *ngFor="let area of areas"
+        color="primary" class="area-btns" (click)="goToComponent(area.route)">
+        {{area.title}}
+      </button>
+    </mat-card-content>
+    <mat-card-actions>
 
-<div>
-  <button mat-raised-button color="primary" (click)="addRecruiter()">
-    Add Recruiter
-  </button>
-  <button mat-raised-button color="primary" (click)="addContract()">
-    Add Contract
-  </button>
-</div>
+    </mat-card-actions>
+  </mat-card>
+</section>
+
+<section class="areas">
+  <mat-spinner class="spinner" *ngIf="loading"></mat-spinner>
+  <mat-card *ngIf="!loading">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Events</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="areas-content">
+      <mat-accordion *ngIf="recentEvents != null">
+        <mat-expansion-panel *ngFor="let re of recentEvents.content">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{re?.category}}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{re?.event}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="grid-container">
+            <div class="left-column">
+              <p >Category</p>
+              <p >Event</p>
+              <p >Content</p>
+            </div>
+            <div class="middle-column">
+              <p>{{re?.category}}</p>
+              <p>{{re?.event}}</p>
+              <p *ngFor="let item of getNotEmptyObject(re) | keyvalue">
+                {{item.value}}
+              </p>
+            </div>
+            <div class="right-column">
+              <button mat-icon-button (click)="openEventHistory(re)">
+                <mat-icon>
+                  edit
+                </mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <p class="empty-response" *ngIf="recentEvents == null">
+        No result for recent Events
+      </p>
+    </mat-card-content>
+    <mat-card-actions >
+
+    </mat-card-actions>
+  </mat-card>
+</section>
 

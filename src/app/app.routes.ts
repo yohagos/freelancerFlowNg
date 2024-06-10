@@ -23,6 +23,21 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'client',
+    loadChildren: () => import('./features/client/client.routes').then(mod => mod.routes),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'project',
+    loadChildren: () => import('./features/project/project.routes').then(mod => mod.routes),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'workLog',
+    loadChildren: () => import('./features/workLogs/workLogs.routes').then(mod => mod.routes),
+    canActivate: [authGuard]
+  },
+  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full'
