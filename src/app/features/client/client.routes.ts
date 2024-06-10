@@ -1,9 +1,9 @@
 import { Routes } from "@angular/router";
-import { AddContractComponent } from "./add-contract/add-contract.component";
 import { authGuard } from "../../core/auth-guard/auth.guard";
-import { ContractsComponent } from "./contracts.component";
-import { OverviewComponent } from "./overview-contract/overview.component";
-import { EditContractsComponent } from "./edit-contracts/edit-contracts.component";
+import { OverviewComponent } from "./overview-client/overview.component";
+import { ClientComponent } from "./client.component";
+import { AddClientComponent } from "./add-client/add-client.component";
+import { EditClientComponent } from "./edit-client/edit-client.component";
 
 
 export const routes: Routes = [
@@ -14,7 +14,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    component: ContractsComponent,
+    component: ClientComponent,
     canActivate: [authGuard],
     children: [
       {
@@ -24,14 +24,15 @@ export const routes: Routes = [
       },
       {
         path: 'add',
-        component: AddContractComponent,
+        component: AddClientComponent,
         canActivate: [authGuard]
       },
       {
         path: 'edit/:id',
-        component: EditContractsComponent,
+        component: EditClientComponent,
         canActivate: [authGuard]
       }
     ]
   },
+
 ]

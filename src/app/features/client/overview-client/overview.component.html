@@ -1,0 +1,50 @@
+<mat-card class="cards">
+  <mat-card-header class="card-headers">
+    <mat-card-title>
+      <h2>Overview: Clients</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-accordion *ngIf="clients != undefined">
+      <mat-expansion-panel *ngFor="let client of clients.content">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{client}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{client}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="left-section">
+          <p>Company Name:</p>
+          <p>Client Name:</p>
+          <p>Email:</p>
+          <p>Phone:</p>
+          <p>Website:</p>
+        </div>
+        <div class="middle-section">
+          <p>{{client?.companyName}}</p>
+          <p>{{client?.clientName}}</p>
+          <p>{{client?.clientEmail}}</p>
+          <p>{{client?.phone}}</p>
+          <p>{{client?.website}}</p>
+        </div>
+        <div class="right-section">
+          <button mat-icon-button (click)="editClients(client?.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <p class="empty-response" *ngIf="clients.content && clients.content.length <= 0">
+      No result for recent Events
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <mat-paginator class="paginator" [length]="clients.totalElement" *ngIf="clients.content && clients.content.length >= 1"
+    [pageSize]="clients.sizeOfEachPage" [pageIndex]="pageIndex" (page)="handlePageEvent($event)">
+
+    </mat-paginator>
+  </mat-card-actions>
+</mat-card>
+
