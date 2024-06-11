@@ -1,1 +1,49 @@
-<p>overview works!</p>
+<mat-card class="cards">
+  <mat-card-header class="card-headers">
+    <mat-card-title>
+      <h2>Overview: Projects</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let project of projects.content">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{project.client}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{project?.projectName}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="left-section">
+          <p>Client:</p>
+          <p>Project Name:</p>
+          <p>Start:</p>
+          <p>End:</p>
+        </div>
+        <div class="middle-section">
+          <p>{{project?.client?.clientName}}</p>
+          <p>{{project?.projectName}}</p>
+          <p>{{project?.startDate}}</p>
+          <p>{{project?.endDate}}</p>
+        </div>
+        <div class="right-section">
+          <button mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <p class="empty-response" *ngIf="projects.content && projects.content.length <= 0">
+      No projects available
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <mat-paginator class="paginator" [length]="projects.totalElement" *ngIf="projects.content && projects.content.length > 0"
+      [pageSize]="projects.sizeOfEachPage" [pageIndex]="pageIndex" (page)="handlePageEvent($event)">
+
+      </mat-paginator>
+  </mat-card-actions>
+</mat-card>
+
+
