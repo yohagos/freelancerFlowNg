@@ -26,8 +26,8 @@
   <mat-card-actions>
     <button class="btns" mat-raised-button
       color="primary"
-      *ngIf="recruiterForm.touched && recruiterForm.valid">
-      Add
+      *ngIf="recruiterForm.touched && recruiterForm.valid" (click)="editRecruiter()">
+      Edit
     </button>
     <button (click)="cancel()" class="btns" mat-button color="alert">
       Cancel

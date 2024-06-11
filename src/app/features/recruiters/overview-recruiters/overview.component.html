@@ -33,12 +33,18 @@
           <button mat-icon-button (click)="editRecruiter(recruiter?.id)">
             <mat-icon>edit</mat-icon>
           </button>
+          <button mat-icon-button (click)="deleteRecruiter(recruiter)">
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
+    <p class="empty-response" *ngIf="recruiters.content && recruiters.content.length <= 0">
+      No recruiters available
+    </p>
   </mat-card-content>
   <mat-card-actions>
-    <mat-paginator class="paginator" [length]="recruiters.totalElement"
+    <mat-paginator class="paginator" [length]="recruiters.totalElement" *ngIf="recruiters.content && recruiters.content.length > 0"
     [pageSize]="recruiters.sizeOfEachPage" [pageIndex]="pageIndex" (page)="handlePageEvent($event)">
 
     </mat-paginator>

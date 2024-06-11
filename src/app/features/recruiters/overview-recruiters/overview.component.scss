@@ -10,9 +10,16 @@
 
 .right-section {
   float: right;
+  display: flex;
+  flex-direction: column;
 }
 
 .paginator {
   margin: auto;
   margin-right: 0;
+}
+
+.empty-response {
+  display: flex;
+  justify-content: center;
 }

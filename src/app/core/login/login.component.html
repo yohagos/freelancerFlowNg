@@ -27,7 +27,7 @@
     </mat-card-header>
     <mat-card-content class="areas-content">
       <mat-accordion *ngIf="recentEvents != null">
-        <mat-expansion-panel *ngFor="let re of recentEvents.content">
+        <mat-expansion-panel *ngFor="let re of events.content">
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{re?.category}}
@@ -46,12 +46,12 @@
             <div class="middle-column">
               <p>{{re?.category}}</p>
               <p>{{re?.event}}</p>
-              <p *ngFor="let item of getNotEmptyObject(re) | keyvalue">
+              <p *ngFor="let item of getEventInformation(re) | keyvalue">
                 {{item.value}}
               </p>
             </div>
             <div class="right-column">
-              <button mat-icon-button (click)="openEventHistory(re)">
+              <button mat-icon-button (click)="editEvent(re)">
                 <mat-icon>
                   edit
                 </mat-icon>

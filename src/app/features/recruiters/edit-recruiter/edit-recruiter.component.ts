@@ -5,9 +5,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { RecruiterService } from '../../../services/services';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { RecruiterResponse } from '../../../services/models';
+import { RecruiterRequest, RecruiterResponse } from '../../../services/models';
+import { CompareObjectsService } from '../../../shared/utils/compare.objects.service';
+
 
 @Component({
   selector: 'app-edit-recruiter',
@@ -27,6 +29,7 @@ import { RecruiterResponse } from '../../../services/models';
 export class EditRecruiterComponent implements OnInit {
   private _router = inject(Router)
   private _activatedRoute = inject(ActivatedRoute)
+  private _compareService = inject(CompareObjectsService)
   private _recruiterService = inject(RecruiterService)
   private fb = inject(FormBuilder)
   recruiterForm: FormGroup = this.fb.group({
@@ -37,6 +40,8 @@ export class EditRecruiterComponent implements OnInit {
     website: new FormControl('')
   })
 
+  previousRecruiter!: RecruiterResponse
+
   ngOnInit() {
     let id = this._activatedRoute.snapshot.paramMap.get('id')
     if (id !== null) {
@@ -44,11 +49,13 @@ export class EditRecruiterComponent implements OnInit {
         recruiterId: id as any
       }).subscribe({
         next: (data) => {
-          console.log(data)
           this.fillForm(data)
+          this.previousRecruiter = data
         }
       })
     }
+
+    
   }
 
   fillForm(recruiter: RecruiterResponse) {
@@ -62,8 +69,34 @@ export class EditRecruiterComponent implements OnInit {
   }
 
   editRecruiter() {
-
+    let editedRecruiter = this.prepareData()
+    if (this.previousRecruiter &&
+      !this._compareService.isEqual(editedRecruiter, this.previousRecruiter)
+    ) {
+      this._recruiterService.updateRecruiter({
+        body: editedRecruiter
+      }).subscribe({
+        next: (data) => {
+          console.log(data)
+        },
+        error: (err) => console.log(err)
+      })
+    }
   }
+
+  prepareData() {
+    const recruiter: RecruiterRequest = {
+      agency: this.recruiterForm.get('agency')?.value,
+      email: this.recruiterForm.get('email')?.value,
+      name: this.recruiterForm.get('name')?.value,
+      phone: this.recruiterForm.get('phone')?.value,
+      website: this.recruiterForm.get('website')?.value,
+      id: this.previousRecruiter.id
+    }
+    return recruiter
+  }
+
+  compareRecruiters() {}
 
   cancel() {
     this._router.navigate(['/recruiter/overview'])

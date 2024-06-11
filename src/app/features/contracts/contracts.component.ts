@@ -26,18 +26,21 @@ export class ContractsComponent {
     this.links = [
       {
         label: 'Overview',
-        link: '/recruiter/overview',
-        index: 0
+        link: '/contract/overview',
+        index: 0,
+        disabled: false
       },
       {
         label: 'Add',
-        link: '/recruiter/add',
-        index: 1
+        link: '/contract/add',
+        index: 1,
+        disabled: false
       },
       {
         label: 'Edit',
-        link: '/recruiter/edit/:id',
-        index: 2
+        link: '/contract/edit/:id',
+        index: 2,
+        disabled: true
       }
     ]
   }

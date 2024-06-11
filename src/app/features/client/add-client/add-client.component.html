@@ -1,1 +1,37 @@
-<p>add-client works!</p>
+<mat-card class="cards">
+  <mat-card-header class="card-headers">
+    <mat-card-title>
+      <h2>Add new Client</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="forms" [formGroup]="clientForm">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Company Name" formControlName="companyName">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Client Name" formControlName="clientName">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Client Email" formControlName="clientEmail">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Phone" formControlName="phone">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Website" formControlName="website">
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button class="btns" mat-raised-button
+      color="primary" (click)="addClient()"
+      *ngIf="clientForm.touched && clientForm.valid">
+      Add
+    </button>
+    <button (click)="clear()" class="btns" mat-button color="alert">
+      Cancel
+    </button>
+  </mat-card-actions>
+</mat-card>
+

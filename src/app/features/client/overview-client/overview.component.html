@@ -9,10 +9,10 @@
       <mat-expansion-panel *ngFor="let client of clients.content">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{client}}
+            {{client?.companyName}}
           </mat-panel-title>
           <mat-panel-description>
-            {{client}}
+            {{client?.clientName}}
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="left-section">
@@ -37,7 +37,7 @@
       </mat-expansion-panel>
     </mat-accordion>
     <p class="empty-response" *ngIf="clients.content && clients.content.length <= 0">
-      No result for recent Events
+      No clients available
     </p>
   </mat-card-content>
   <mat-card-actions>

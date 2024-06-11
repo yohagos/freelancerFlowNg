@@ -51,7 +51,6 @@ export class OverviewComponent implements OnInit {
     }).subscribe({
       next: (data) => {
         this.clients = data
-        console.log(data)
       },
       error: (err) => console.log(err)
     })

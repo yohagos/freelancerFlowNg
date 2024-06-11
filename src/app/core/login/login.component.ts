@@ -10,38 +10,17 @@ import { UserProfile } from '../keycloak/user.profile';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { EventHistoryService } from '../../services/services';
-import { ClientEntity, ContractEntity, EventResponse, PageResponseEventResponse, ProjectEntity, RecruiterEntity, WorkLogEntity } from '../../services/models';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { EventResponse, PageResponseEventResponse } from '../../services/models';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import {MatTableModule} from '@angular/material/table';
+import { PartialEventResponse, convertToEventAdapter } from '../events/events.adapter';
 
-interface ContentInterface {
-  clientName?: string
-  clientEmail?: string
-  companyName?: string
-  projectName?: string
-  startDate?: string
-  endDate?: string
-  agency?: string
-  email?: string
-  name?: string
-  workDate?: string
-  [key: string]: any
-}
 
 export interface Areas {
   title: string
   route: string
-}
-
-interface ChildAreas {
-  project?: ProjectEntity
-  client?: ClientEntity
-  contract?: ContractEntity
-  recruiter?: RecruiterEntity
-  workLog?: WorkLogEntity
-  [key: string]: any
 }
 
 @Component({
@@ -67,7 +46,8 @@ interface ChildAreas {
 export class LoginComponent implements OnInit, OnDestroy {
   private _eventService = inject(EventHistoryService)
   private _userProfile: UserProfile | undefined
-  recentEvents!: PageResponseEventResponse
+  events!: PageResponseEventResponse
+  recentEvents: PartialEventResponse[] = []
   areas: Areas[] = []
 
   loading = true
@@ -110,7 +90,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     this._eventService.recentEvents().subscribe({
       next: (data) => {
-        this.recentEvents = data
+        this.events = data
+        this.recentEvents = this.prepareData(data.content)
         this.loading = false
       }
     })
@@ -124,77 +105,36 @@ export class LoginComponent implements OnInit, OnDestroy {
     return this._userProfile
   }
 
+  prepareData(events: EventResponse[] | undefined) {
+    let data: PartialEventResponse[] = []
+    if (events) {
+      for (const ev of events) {
+        data.push(convertToEventAdapter(ev))
+      }
+    }
+    return data
+  }
+
   goToComponent(path: string) {
     this.router.navigate([path])
   }
 
-  getNotEmptyObject(event: EventResponse) {
-    let objs: ChildAreas = {
-      project: event.project,
-      client: event.client,
-      contract: event.contract,
-      recruiter: event.recruiter,
-      workLog: event.workLog
-    }
-
-    for (const key in objs) {
-      const obj = objs[key]
-      if (obj && Object.keys(obj).length > 0) {
-        return this.transformData(key, obj)
-      }
-    }
-    return
+  getEventInformation(eventResponse: EventResponse) {
+    return Object.entries(eventResponse)
+      .filter(([_, value]) => value !== null && value !== undefined)
+      .reduce((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+      }, {} as PartialEventResponse);
   }
 
-  transformData(key: string, obj: any) {
-    let content: ContentInterface = {}
-    switch (key) {
-      case 'recruiter':
-        content.agency = obj?.agency
-        content.name = obj?.name
-        content.email = obj?.email
-        break
-      case 'project':
-        content.projectName = obj?.projectName
-        content.startDate = obj?.startDate
-        content.endDate = obj?.endDate
-        break
-      case 'client':
-        content.clientName = obj?.clientName
-        content.clientEmail = obj?.clientEmail
-        content.companyName = obj?.companyName
-        break
-      case 'contract':
-        content.projectName = obj?.projectName
-        content.startDate = obj?.startDate
-        content.endDate = obj?.endDate
-        break
-      case 'workLog':
-        content.projectName = obj?.projectName
-        content.workDate = obj?.workDate
-        break
-      default:
-        console.log('error')
-        break
+  editEvent(er: EventResponse) {
+    const event = this.events.content?.find(value => value.name === er.name)
+
+    if (event) {
+
+      this.router.navigate([`${event?.category?.toLowerCase()}/edit/${event?.categoryId}`])
     }
-    return content
+
   }
-
-  openEventHistory(eventResponse: EventResponse) {
-    let objs: ChildAreas = {
-      project: eventResponse.project,
-      client: eventResponse.client,
-      contract: eventResponse.contract,
-      recruiter: eventResponse.recruiter,
-      workLog: eventResponse.workLog
-    }
-
-    for (const key in objs) {
-      const obj = objs[key]
-      if (obj && Object.keys(obj).length > 0) {
-        this.router.navigate([`/${key}/edit/${obj.id}`])
-      }
-    }
-  }
-
 }

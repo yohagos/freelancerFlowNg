@@ -8,6 +8,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatInputModule } from "@angular/material/input";
 import { RecruiterService } from '../../../services/services';
 import { RecruiterRequest } from '../../../services/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-recruiter',
@@ -25,6 +26,7 @@ import { RecruiterRequest } from '../../../services/models';
   styleUrl: './add-recruiter.component.scss'
 })
 export class AddRecruiterComponent implements OnInit {
+  private router = inject(Router)
   private _recruiterService = inject(RecruiterService)
   private fb = inject(FormBuilder)
   recruiterForm: FormGroup = this.fb.group({
@@ -36,9 +38,7 @@ export class AddRecruiterComponent implements OnInit {
   })
 
   ngOnInit() {
-    this._recruiterService.getRecruiters().subscribe(
-      data => console.log(data)
-    )
+    
   }
 
   addRecruiter() {
@@ -48,7 +48,7 @@ export class AddRecruiterComponent implements OnInit {
         body: req
       }).subscribe({
         next: (res) => {
-          console.log(res)
+          this.router.navigate(['/recruiter'])
         },
         error: (err) => {
           console.error(err.error)

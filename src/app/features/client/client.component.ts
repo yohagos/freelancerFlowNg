@@ -27,17 +27,20 @@ export class ClientComponent {
       {
         label: 'Overview',
         link: '/client/overview',
-        index: 0
+        index: 0,
+        disabled: false
       },
       {
         label: 'Add',
         link: '/client/add',
-        index: 1
+        index: 1,
+        disabled: false
       },
       {
         label: 'Edit',
         link: '/client/edit/:id',
-        index: 2
+        index: 2,
+        disabled: true
       }
     ]
   }

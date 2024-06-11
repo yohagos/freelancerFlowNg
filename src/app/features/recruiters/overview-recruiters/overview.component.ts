@@ -71,8 +71,8 @@ export class OverviewComponent implements OnInit {
         this._recruiterService.deleteRecruiterById({
           recruiterId: recruiter.id
         }).subscribe({
-          next: (data) => {
-            console.log(data)
+          next: () => {
+            this.loadData()
           },
           error: (err) => {
             console.log(err)
