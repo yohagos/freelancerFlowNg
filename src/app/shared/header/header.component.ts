@@ -21,6 +21,7 @@ import { KeycloakService } from '../../core/keycloak/keycloak.service';
 })
 export class HeaderComponent {
   showBackArrow = false
+  checkLogPage = false
 
   themes = [
     {
@@ -41,6 +42,9 @@ export class HeaderComponent {
     this.router.events.subscribe(
       (event) => {
         if (event instanceof NavigationEnd) {
+          if (event.url.includes('logs')) {
+            this.checkLogPage = true
+          }
           if (event.url !== '/login') {
             this.showBackArrow = true
             return
@@ -58,7 +62,12 @@ export class HeaderComponent {
   }
 
   backToLogin() {
-    this.router.navigate(['/login'])
+    if (this.checkLogPage) {
+      this.checkLogPage = false
+      this.router.navigate(['/project/overview'])
+    } else {
+      this.router.navigate(['/login'])
+    }
   }
 
   logout() {

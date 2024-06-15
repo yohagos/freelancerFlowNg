@@ -5,14 +5,20 @@ import { routes } from './app.routes';
 import { httpTokenInterceptor } from "./core/interceptors/http-token.interceptor";
 import { KeycloakService } from "./core/keycloak/keycloak.service";
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormatDateService } from './shared/utils/format-date.service';
 
 
 export function kcFactory(kcService: KeycloakService) {
   return () => kcService.init()
+}
+
+export function localeFactory( dateService: FormatDateService) {
+  return () => dateService.init()
 }
 
 const providers = [
@@ -32,7 +38,14 @@ export const appConfig: ApplicationConfig = {
       useFactory: kcFactory,
       multi: true
     },
+    {
+      provide: APP_INITIALIZER,
+      deps: [FormatDateService],
+      useFactory: localeFactory,
+      multi: true
+    },
     provideHttpClient(withInterceptors([httpTokenInterceptor])),
-    importProvidersFrom(providers)
+    importProvidersFrom(providers),
+  
   ]
 };

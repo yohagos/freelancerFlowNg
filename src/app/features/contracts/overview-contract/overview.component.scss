@@ -1,0 +1,26 @@
+.left-section {
+  width: 32%;
+  float: left;
+}
+
+.middle-section {
+  width: 30%;
+  float: left;
+}
+
+.right-section {
+  float: right;
+  display: flex;
+  flex-direction: column;
+}
+
+.paginator {
+  margin: auto;
+  margin-right: 0;
+}
+
+.empty-response {
+  display: flex;
+  justify-content: center;
+}
+

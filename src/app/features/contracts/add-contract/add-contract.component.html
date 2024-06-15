@@ -7,7 +7,10 @@
   <mat-card-content>
     <div class="forms" [formGroup]="contractForm">
       <mat-form-field class="form-fields">
-        <input matInput placeholder="Project ID" formControlName="projectId">
+        <mat-label>Project</mat-label>
+        <mat-select formControlName="projectId">
+          <mat-option *ngFor="let project of projects" [value]="project.id"> {{project.projectName}} - {{project.client?.companyName}} </mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field class="form-fields">
         <input matInput placeholder="On Site Rate" formControlName="onSiteRate">
@@ -16,10 +19,26 @@
         <input matInput placeholder="Remote Rate" formControlName="remoteRate">
       </mat-form-field>
       <mat-form-field class="form-fields">
-        <input matInput placeholder="Start Date" formControlName="startDate">
+        <mat-label>Start Date</mat-label>
+        <input matInput formControlName="startDate" [matDatepicker]="startDatePicker">
+        <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker>
+          <mat-datepicker-actions>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+            <button mat-button matDatepickerCancel>Cancel</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
       </mat-form-field>
       <mat-form-field class="form-fields">
-        <input matInput placeholder="End Date" formControlName="endDate">
+        <mat-label>End Date</mat-label>
+        <input matInput formControlName="endDate" [matDatepicker]="endDatePicker">
+        <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker>
+          <mat-datepicker-actions>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+            <button mat-button matDatepickerCancel>Cancel</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
       </mat-form-field>
     </div>
   </mat-card-content>

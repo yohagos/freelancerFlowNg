@@ -1,1 +1,55 @@
-<p>edit-contracts works!</p>
+<mat-card class="cards">
+  <mat-card-header class="card-headers">
+    <mat-card-title>
+      <h1>Edit Contract</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="forms" [formGroup]="contractForm">
+      <mat-form-field class="form-fields">
+        <mat-label>Project</mat-label>
+        <mat-select formControlName="projectId">
+          <mat-option *ngFor="let project of projects" [value]="project.id"> {{project.projectName}} - {{project.client?.companyName}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="On Site Rate" formControlName="onSiteRate">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Remote Rate" formControlName="remoteRate">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <mat-label>Start Date</mat-label>
+        <input matInput formControlName="startDate" [matDatepicker]="startDatePicker">
+        <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker>
+          <mat-datepicker-actions>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+            <button mat-button matDatepickerCancel>Cancel</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <mat-label>End Date</mat-label>
+        <input matInput formControlName="endDate" [matDatepicker]="endDatePicker">
+        <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker>
+          <mat-datepicker-actions>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+            <button mat-button matDatepickerCancel>Cancel</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button class="btns" mat-raised-button color="primary"
+    *ngIf="contractForm.touched && contractForm.valid" (click)="editContract()">
+      Edit
+    </button>
+    <button class="btns" mat-button color="alert" (click)="cancel()">
+      Cancel
+    </button>
+  </mat-card-actions>
+</mat-card>
+

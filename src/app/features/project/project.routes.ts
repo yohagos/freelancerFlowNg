@@ -4,6 +4,7 @@ import { OverviewComponent } from "./overview-project/overview.component";
 import { ProjectComponent } from "./project.component";
 import { AddProjectComponent } from "./add-project/add-project.component";
 import { EditProjectComponent } from "./edit-project/edit-project.component";
+import { LogsComponent } from "./logs/logs.component";
 
 
 export const routes: Routes = [
@@ -30,6 +31,11 @@ export const routes: Routes = [
       {
         path: 'edit/:id',
         component: EditProjectComponent,
+        canActivate: [authGuard]
+      },
+      {
+        path: 'logs/:id',
+        component: LogsComponent,
         canActivate: [authGuard]
       }
     ]

@@ -1,0 +1,22 @@
+.form-fields {
+  display: flex;
+  justify-content: center;
+  border-radius: 15%;
+}
+
+.mat-mdc-form-field-type-mat-input,
+.mat-mdc-form-field-type-mat-select {
+  border-radius: 30%;
+  font-size: 1.3em;
+  width: 76%;
+  margin: auto;
+}
+
+
+.btns {
+  padding: 0.6em;
+  margin: 0.3em;
+  border-radius: 15%;
+}
+
+

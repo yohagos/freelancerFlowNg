@@ -14,7 +14,7 @@ import { EventResponse, PageResponseEventResponse } from '../../services/models'
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { PartialEventResponse, convertToEventAdapter } from '../events/events.adapter';
 
 
@@ -74,10 +74,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         route: '/project'
       },
       {
-        title: 'Work Logs',
-        route: '/workLog'
-      },
-      {
         title: 'Contracts',
         route: '/contract'
       },
@@ -121,7 +117,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   getEventInformation(eventResponse: EventResponse) {
     return Object.entries(eventResponse)
-      .filter(([_, value]) => value !== null && value !== undefined)
+      .filter(([key, value]) => value !== null && value !== undefined && !key.toLowerCase().includes('id') && !key.toLowerCase().includes('date'))
       .reduce((acc, [key, value]) => {
         acc[key] = value;
         return acc;

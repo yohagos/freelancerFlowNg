@@ -9,7 +9,7 @@
       <mat-expansion-panel *ngFor="let contract of contracts.content">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{contract?.project?.client}}
+            {{contract?.project?.client?.companyName}}
           </mat-panel-title>
           <mat-panel-description>
             {{contract?.project?.projectName}}
@@ -24,18 +24,18 @@
         <div class="middle-section">
           <p>{{contract?.project?.client?.clientName}}</p>
           <p>{{contract?.project?.projectName}}</p>
-          <p>{{contract?.startDate}}</p>
-          <p>{{contract?.endDate}}</p>
+          <p>{{formdateService.getFormatedDate(contract?.startDate)}}</p>
+          <p>{{formdateService.getFormatedDate(contract?.endDate)}}</p>
         </div>
         <div class="right-section">
-          <button mat-icon-button>
+          <button mat-icon-button (click)="editContract(contract.id)">
             <mat-icon>edit</mat-icon>
           </button>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
     <p class="empty-response" *ngIf="contracts.content && contracts.content.length <= 0">
-      No projects available
+      No contracts available
     </p>
   </mat-card-content>
   <mat-card-actions>

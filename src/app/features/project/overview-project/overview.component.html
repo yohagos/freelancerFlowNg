@@ -9,7 +9,7 @@
       <mat-expansion-panel *ngFor="let project of projects.content">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{project.client}}
+            {{project.client?.clientName}}
           </mat-panel-title>
           <mat-panel-description>
             {{project?.projectName}}
@@ -17,19 +17,24 @@
         </mat-expansion-panel-header>
         <div class="left-section">
           <p>Client:</p>
+          <p *ngIf="project.recruiter">Recruiter:</p>
           <p>Project Name:</p>
           <p>Start:</p>
           <p>End:</p>
         </div>
         <div class="middle-section">
           <p>{{project?.client?.clientName}}</p>
+          <p *ngIf="project.recruiter">{{project.recruiter.name}}</p>
           <p>{{project?.projectName}}</p>
-          <p>{{project?.startDate}}</p>
-          <p>{{project?.endDate}}</p>
+          <p>{{formdateService.getFormatedDate(project?.startDate)}}</p>
+          <p>{{formdateService.getFormatedDate(project?.endDate)}}</p>
         </div>
         <div class="right-section">
-          <button mat-icon-button>
+          <button mat-icon-button (click)="editProject(project.id)">
             <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="addWorkLog(project)">
+            <mat-icon>add_box</mat-icon>
           </button>
         </div>
       </mat-expansion-panel>

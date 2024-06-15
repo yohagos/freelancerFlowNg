@@ -1,10 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatTabsModule } from "@angular/material/tabs";
-import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-recruiters',
@@ -19,12 +18,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   templateUrl: './recruiters.component.html',
   styleUrl: './recruiters.component.scss'
 })
-export class RecruitersComponent implements OnInit {
+export class RecruitersComponent {
   links: any[]
   activatedLink: any
-
-  private _router = inject(Router)
-  private _activatedRoute = inject(ActivatedRoute)
 
   constructor() {
     this.links = [
@@ -47,13 +43,5 @@ export class RecruitersComponent implements OnInit {
         disabled: true
       }
     ]
-  }
-
-  ngOnInit() {
-
-  }
-
-  hasId() {
-
   }
 }

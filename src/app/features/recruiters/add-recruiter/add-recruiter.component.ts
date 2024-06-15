@@ -1,7 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -25,7 +24,7 @@ import { Router } from '@angular/router';
   templateUrl: './add-recruiter.component.html',
   styleUrl: './add-recruiter.component.scss'
 })
-export class AddRecruiterComponent implements OnInit {
+export class AddRecruiterComponent {
   private router = inject(Router)
   private _recruiterService = inject(RecruiterService)
   private fb = inject(FormBuilder)
@@ -36,10 +35,6 @@ export class AddRecruiterComponent implements OnInit {
     phone: new FormControl('', Validators.required),
     website: new FormControl('')
   })
-
-  ngOnInit() {
-    
-  }
 
   addRecruiter() {
     if (this.recruiterForm.valid && this.recruiterForm.dirty) {

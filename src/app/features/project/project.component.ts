@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-project',
@@ -18,30 +18,45 @@ import { RouterModule } from '@angular/router';
   templateUrl: './project.component.html',
   styleUrl: './project.component.scss'
 })
-export class ProjectComponent {
+export class ProjectComponent implements OnInit {
   links: any[]
   activatedLink: any
+  displayTabs = true
+
+  private _router = inject(Router)
 
   constructor() {
     this.links = [
       {
         label: 'Overview',
-        link: '/contract/overview',
+        link: '/project/overview',
         index: 0,
         disabled: false
       },
       {
         label: 'Add',
-        link: '/contract/add',
+        link: '/project/add',
         index: 1,
         disabled: false
       },
       {
         label: 'Edit',
-        link: '/contract/edit/:id',
+        link: '/project/edit/:id',
         index: 2,
         disabled: true
       }
     ]
+  }
+
+  ngOnInit() {
+    this._router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        if (event.url.includes('logs')) {
+          this.displayTabs = false
+        } else {
+          this.displayTabs = true
+        }
+      }
+    })
   }
 }

@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientsService } from '../../../services/services';
-import { ClientResponse } from '../../../services/models';
+import { ClientRequest, ClientResponse } from '../../../services/models';
 
 @Component({
   selector: 'app-edit-client',
@@ -28,6 +28,7 @@ export class EditClientComponent implements OnInit {
   private _router = inject(Router)
   private _activatedRoute = inject(ActivatedRoute)
   private _clientService = inject(ClientsService)
+  private previousCLient!: ClientResponse
   private fb = inject(FormBuilder)
   clientForm: FormGroup = this.fb.group({
     clientName: new FormControl('', Validators.required),
@@ -44,7 +45,7 @@ export class EditClientComponent implements OnInit {
         clientId: id as any
       }).subscribe({
         next: (data) => {
-          console.log(data)
+          this.previousCLient = data
           this.fillForm(data)
         }
       })
@@ -61,11 +62,33 @@ export class EditClientComponent implements OnInit {
     })
   }
 
-  editRecruiter() {
+  editClient() {
+    const editedClient = this.prepareData()
+    this._clientService.updateClient({
+      body: editedClient
+    }).subscribe({
+      next: () => {
+        this._router.navigate(['/client/overview'])
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
+  }
 
+  prepareData() {
+    const client: ClientRequest = {
+      id: this.previousCLient.id,
+      clientEmail: this.clientForm.get('clientEmail')?.value,
+      clientName: this.clientForm.get('clientName')?.value,
+      companyName: this.clientForm.get('companyName')?.value,
+      phone: this.clientForm.get('phone')?.value,
+      website: this.clientForm.get('website')?.value
+    }
+    return client
   }
 
   cancel() {
-    this._router.navigate(['/recruiter/overview'])
+    this._router.navigate(['/client/overview'])
   }
 }

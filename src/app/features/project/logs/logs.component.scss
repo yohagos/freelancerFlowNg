@@ -1,0 +1,66 @@
+.empty-results {
+  display: flex;
+  justify-content: center;
+}
+
+.add-btn {
+  float: right;
+  margin: 1em;
+}
+
+mat-card {
+  margin: 3em;
+  margin-bottom: 5em;
+}
+
+textarea {
+  resize: none;
+}
+
+.form-fields {
+  display: flex;
+  justify-content: center;
+  border-radius: 15%;
+}
+
+.mat-mdc-form-field-type-mat-input,
+.mat-mdc-form-field-type-mat-select {
+  border-radius: 30%;
+  font-size: 1.3em;
+  width: 76%;
+  margin: auto;
+}
+
+.slider {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.btns {
+  padding: 0.6em;
+  margin: 0.3em;
+  border-radius: 15%;
+}
+
+.log-list {
+  _display: flex;
+  _justify-content: space-evenly;
+  _flex-wrap: wrap;
+  _flex-direction: row;
+}
+
+.log-item {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 23em;
+  min-height: 17em;
+  _max-width: 30em;
+  _max-height: 20em;
+  _flex-direction: row;
+  margin: 0.2em;
+}
+
+.log-container {
+  margin-bottom: 2em;
+}
+

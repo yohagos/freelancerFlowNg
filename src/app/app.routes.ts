@@ -33,11 +33,6 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'workLog',
-    loadChildren: () => import('./features/workLogs/workLogs.routes').then(mod => mod.routes),
-    canActivate: [authGuard]
-  },
-  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full'

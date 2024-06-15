@@ -65,14 +65,14 @@ export class OverviewComponent implements OnInit {
     this._router.navigate(['client/edit', id])
   }
 
-  deleteRecruiter(client: ClientResponse) {
+  deleteClient(client: ClientResponse) {
     this._confirmDialogService.confirm().subscribe((result) => {
       if (result && client.id != null ) {
         this._clientService.deleteClient({
           clientId: client.id
         }).subscribe({
-          next: (data) => {
-            console.log(data)
+          next: () => {
+            this.loadData()
           },
           error: (err) => {
             console.log(err)

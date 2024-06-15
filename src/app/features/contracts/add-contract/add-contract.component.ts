@@ -1,13 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ContractsService } from '../../../services/services';
+import { ContractsService, ProjectsService } from '../../../services/services';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ContractRequest } from '../../../services/models';
+import { ContractRequest, ProjectResponse } from '../../../services/models';
+import { Router } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-contract',
@@ -20,13 +24,24 @@ import { ContractRequest } from '../../../services/models';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+  ],
+  providers: [
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'ge-DE'
+    },
+    provideNativeDateAdapter(),
   ],
   templateUrl: './add-contract.component.html',
   styleUrl: './add-contract.component.scss'
 })
-export class AddContractComponent implements OnInit{
+export class AddContractComponent implements OnInit {
+  private _router = inject(Router)
   private _contractService = inject(ContractsService)
+  private _projectService = inject(ProjectsService)
   private fb = inject(FormBuilder)
   contractForm: FormGroup = this.fb.group({
     projectId: new FormControl('', Validators.required),
@@ -36,10 +51,12 @@ export class AddContractComponent implements OnInit{
     startDate: new FormControl('', Validators.required),
   })
 
+  projects: ProjectResponse[] | undefined
+
   ngOnInit() {
-      this._contractService.getContracts().subscribe(
-        data => console.log(data)
-      )
+    this._projectService.getProjects().subscribe({
+      next: (data) => this.projects = data.content
+    })
   }
 
   addContract() {
@@ -48,7 +65,7 @@ export class AddContractComponent implements OnInit{
       this._contractService.saveContract({
         body: req
       }).subscribe({
-        next: (data) => console.log(data),
+        next: () => this._router.navigate(['/contract/overview']),
         error: (err) => console.log(err)
       })
     }
@@ -56,13 +73,12 @@ export class AddContractComponent implements OnInit{
 
   prepareRequest() {
     const request: ContractRequest = {
-      endDate: '',
-      projectId: 0,
-      startDate: '',
-      onSiteRate: 0,
-      remoteRate: 0,
+      endDate: this.contractForm.get('endDate')?.value,
+      projectId: this.contractForm.get('projectId')?.value,
+      startDate: this.contractForm.get('startDate')?.value,
+      onSiteRate: this.contractForm.get('onSiteRate')?.value,
+      remoteRate: this.contractForm.get('remoteRate')?.value,
     }
-
     return request
   }
 

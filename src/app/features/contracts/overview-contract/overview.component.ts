@@ -5,11 +5,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { ContractsService, RecruiterService } from '../../../services/services';
+import { ContractsService } from '../../../services/services';
 import { ContractResponse, PageResponseContractResponse } from '../../../services/models';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ConfirmDialogService } from '../../../shared/confirm-dialog/confirm-dialog.service';
+import { FormatDateService } from '../../../shared/utils/format-date.service';
 
 @Component({
   selector: 'app-overview',
@@ -31,6 +32,7 @@ export class OverviewComponent implements OnInit {
   private _router = inject(Router)
   private _contractService = inject(ContractsService)
   private _confirmService = inject(ConfirmDialogService)
+  formdateService = inject(FormatDateService)
   contracts: PageResponseContractResponse = {}
 
   size = 10

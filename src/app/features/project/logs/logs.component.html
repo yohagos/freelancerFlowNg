@@ -1,0 +1,63 @@
+<mat-card class="log-container">
+  <mat-card-header>
+    <mat-card-title *ngIf="currentProject">
+      <h2>Project : {{currentProject.projectName}}</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="log-list">
+    <section *ngIf="workLogs.content && workLogs.content.length > 0" class="log-item">
+      <div *ngFor="let log of workLogs.content">
+        <app-cards [workLog]="log"></app-cards>
+      </div>
+    </section>
+    <section *ngIf="workLogs.content && workLogs.content.length <= 0">
+      <p class="empty-results">No logs found</p>
+    </section>
+  </mat-card-content>
+  <mat-card-actions>
+    <button class="add-btn" mat-raised-button color="primary" (click)="createForm()">
+      +
+    </button>
+  </mat-card-actions>
+</mat-card>
+
+<mat-card *ngIf="showForm">
+  <mat-card-content>
+    <div class="forms" [formGroup]="logForm">
+      <div class="form-fields slider">
+        <mat-slide-toggle matTextSuffix formControlName="isRemote"> Is Remote?</mat-slide-toggle>
+      </div>
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Hours Worked" formControlName="hoursWorked">
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <textarea matInput placeholder="Notice" cols="30" rows="4" formControlName="notice"></textarea>
+      </mat-form-field>
+      <mat-form-field class="form-fields">
+        <mat-label>Work Date</mat-label>
+        <input matInput formControlName="workDate" [matDatepicker]="workDatePicker">
+        <mat-datepicker-toggle matIconSuffix [for]="workDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #workDatePicker>
+          <mat-datepicker-actions>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+            <button mat-button matDatepickerCancel>Cancel</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary"
+      *ngIf="logForm.valid && logForm.dirty"
+      (click)="addLog()">
+      Add
+    </button>
+    <button mat-button
+      *ngIf="logForm.valid && logForm.dirty"
+      (click)="cancel()">
+      Cancel
+    </button>
+  </mat-card-actions>
+</mat-card>
+
+

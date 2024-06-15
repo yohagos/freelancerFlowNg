@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { RecruiterService } from '../../../services/services';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RecruiterRequest, RecruiterResponse } from '../../../services/models';
 import { CompareObjectsService } from '../../../shared/utils/compare.objects.service';
@@ -54,8 +54,6 @@ export class EditRecruiterComponent implements OnInit {
         }
       })
     }
-
-    
   }
 
   fillForm(recruiter: RecruiterResponse) {
@@ -76,8 +74,8 @@ export class EditRecruiterComponent implements OnInit {
       this._recruiterService.updateRecruiter({
         body: editedRecruiter
       }).subscribe({
-        next: (data) => {
-          console.log(data)
+        next: () => {
+          this._router.navigate(['/recruiter/overview'])
         },
         error: (err) => console.log(err)
       })
@@ -95,8 +93,6 @@ export class EditRecruiterComponent implements OnInit {
     }
     return recruiter
   }
-
-  compareRecruiters() {}
 
   cancel() {
     this._router.navigate(['/recruiter/overview'])

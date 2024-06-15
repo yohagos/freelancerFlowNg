@@ -1,0 +1,21 @@
+<mat-card class="cards">
+  <mat-card-header></mat-card-header>
+  <mat-card-content>
+    <section class="left-section">
+      <p>Project:</p>
+      <p>Work Date:</p>
+      <p>Hours Worked:</p>
+      <p>Remote:</p>
+      <p>Notice:</p>
+      
+    </section>
+    <section class="right-section">
+      <p>{{workLog.project?.projectName}}</p>
+      <p>{{formatDateService.getFormatedDate(workLog.workDate)}}</p>
+      <p>{{workLog.hoursWorked}}</p>
+      <p>{{workLog.isRemote}}</p>
+      <p>{{workLog.notice | truncate: 10}}</p>
+    </section>
+  </mat-card-content>
+
+</mat-card>

@@ -10,6 +10,8 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ConfirmDialogService } from '../../../shared/confirm-dialog/confirm-dialog.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { FormatDateService } from '../../../shared/utils/format-date.service';
 
 @Component({
   selector: 'app-overview',
@@ -24,6 +26,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatIconModule,
     MatPaginatorModule
   ],
+  providers: [
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'ge-DE'
+    },
+    provideNativeDateAdapter(),
+  ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
 })
@@ -31,6 +40,7 @@ export class OverviewComponent implements OnInit {
   private _router = inject(Router)
   private _projectService = inject(ProjectsService)
   private _confirmDialogService = inject(ConfirmDialogService)
+  formdateService = inject(FormatDateService)
   projects: PageResponseProjectResponse = {}
 
   size = 10
@@ -60,6 +70,11 @@ export class OverviewComponent implements OnInit {
 
   editProject(id: number | undefined) {
     this._router.navigate([`project/edit`, id])
+  }
+
+  addWorkLog(project: ProjectResponse) {
+    console.log(project)
+    this._router.navigate(['/project/logs', project.id])
   }
 
   deleteProject(project: ProjectResponse) {

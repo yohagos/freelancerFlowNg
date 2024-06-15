@@ -1,4 +1,4 @@
-<nav mat-tab-nav-bar [tabPanel]="tabPanel">
+<nav mat-tab-nav-bar [tabPanel]="tabPanel" *ngIf="displayTabs">
   <a mat-tab-link *ngFor="let link of links"
   [routerLink]="link.link" #rla [active]="rla.active"
   [disabled]="link.disabled">
