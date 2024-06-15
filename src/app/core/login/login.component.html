@@ -51,7 +51,7 @@
               </p>
             </div>
             <div class="right-column">
-              <button mat-icon-button (click)="editEvent(re)">
+              <button mat-icon-button *ngIf="!re.category?.toLocaleLowerCase()?.includes('log')" (click)="editEvent(re)">
                 <mat-icon>
                   edit
                 </mat-icon>

@@ -126,9 +126,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   editEvent(er: EventResponse) {
     const event = this.events.content?.find(value => value.name === er.name)
-
     if (event) {
-
       this.router.navigate([`${event?.category?.toLowerCase()}/edit/${event?.categoryId}`])
     }
 
