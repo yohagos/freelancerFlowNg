@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RecruiterService } from '../../../services/services';
 import { PageResponseRecruiterResponse, RecruiterResponse } from '../../../services/models';
 import { MatCardModule } from '@angular/material/card';
@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogService } from '../../../shared/confirm-dialog/confirm-dialog.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -38,21 +39,16 @@ export class OverviewComponent implements OnInit {
   pageIndex = 0
   pageEvent!: PageEvent
 
-  recruiters: PageResponseRecruiterResponse = {}
+  recruiterResponse$!: Observable<PageResponseRecruiterResponse>
 
   ngOnInit() {
     this.loadData()
   }
 
   loadData() {
-    this._recruiterService.getRecruiters({
+    this.recruiterResponse$ = this._recruiterService.getRecruiters({
       page: this.page,
       size: this.size
-    }).subscribe({
-      next: (data) => {
-        this.recruiters = data
-      },
-      error: (err) => console.log(err)
     })
   }
 

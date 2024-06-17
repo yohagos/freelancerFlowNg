@@ -16,6 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTableModule } from '@angular/material/table';
 import { PartialEventResponse, convertToEventAdapter } from '../events/events.adapter';
+import { Observable, catchError, of } from 'rxjs';
 
 
 export interface Areas {
@@ -44,11 +45,30 @@ export interface Areas {
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  private _router = inject(Router)
   private _eventService = inject(EventHistoryService)
+  private _keycloakService = inject(KeycloakService)
   private _userProfile: UserProfile | undefined
-  events!: PageResponseEventResponse
-  recentEvents: PartialEventResponse[] = []
-  areas: Areas[] = []
+
+  recentEvents$!: Observable<PageResponseEventResponse>
+  areas: Areas[] = [
+    {
+      title: 'Recruiters',
+      route: '/recruiter'
+    },
+    {
+      title: 'Clients',
+      route: '/client'
+    },
+    {
+      title: 'Projects',
+      route: '/project'
+    },
+    {
+      title: 'Contracts',
+      route: '/contract'
+    },
+  ]
 
   loading = true
 
@@ -56,41 +76,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   page = 0
   size = 10
 
-  constructor(
-    private keycloakService: KeycloakService,
-    private router: Router,
-  ) {
-    this.areas = [
-      {
-        title: 'Recruiters',
-        route: '/recruiter'
-      },
-      {
-        title: 'Clients',
-        route: '/client'
-      },
-      {
-        title: 'Projects',
-        route: '/project'
-      },
-      {
-        title: 'Contracts',
-        route: '/contract'
-      },
-    ]
-  }
-
   ngOnInit() {
-    if (this.keycloakService.profile) {
-      this._userProfile = this.keycloakService.profile
+    if (this._keycloakService.profile) {
+      this._userProfile = this._keycloakService.profile
     }
-    this._eventService.recentEvents().subscribe({
-      next: (data) => {
-        this.events = data
-        this.recentEvents = this.prepareData(data.content)
-        this.loading = false
-      }
-    })
+
+    this.recentEvents$ = this._eventService.recentEvents().pipe(
+      catchError(err => {
+        console.log(err)
+        return of()
+      })
+    )
+
+    this.loading = false
   }
 
   ngOnDestroy() {
@@ -112,7 +110,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   goToComponent(path: string) {
-    this.router.navigate([path])
+    this._router.navigate([path])
   }
 
   getEventInformation(eventResponse: EventResponse) {
@@ -125,10 +123,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   editEvent(er: EventResponse) {
-    const event = this.events.content?.find(value => value.name === er.name)
-    if (event) {
-      this.router.navigate([`${event?.category?.toLowerCase()}/edit/${event?.categoryId}`])
-    }
-
+    this._router.navigate([`${er?.category?.toLowerCase()}/edit/${er?.categoryId}`])
   }
 }

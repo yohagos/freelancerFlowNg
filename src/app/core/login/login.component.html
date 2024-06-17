@@ -26,8 +26,8 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content class="areas-content">
-      <mat-accordion *ngIf="recentEvents != null">
-        <mat-expansion-panel *ngFor="let re of events.content">
+      <mat-accordion *ngIf="recentEvents$ | async as lastEvents">
+        <mat-expansion-panel *ngFor="let re of lastEvents.content">
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{re?.category}}
@@ -60,7 +60,7 @@
           </div>
         </mat-expansion-panel>
       </mat-accordion>
-      <p class="empty-response" *ngIf="recentEvents == null">
+      <p class="empty-response" *ngIf="recentEvents$ == null">
         No result for recent Events
       </p>
     </mat-card-content>

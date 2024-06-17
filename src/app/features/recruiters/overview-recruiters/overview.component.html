@@ -4,9 +4,9 @@
       <h2>Overview: Recruiters</h2>
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content *ngIf="recruiterResponse$ | async as recruiterResponse">
     <mat-accordion >
-      <mat-expansion-panel *ngFor="let recruiter of recruiters.content">
+      <mat-expansion-panel *ngFor="let recruiter of recruiterResponse.content">
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{recruiter?.agency}}
@@ -39,15 +39,15 @@
         </div>
       </mat-expansion-panel>
     </mat-accordion>
-    <p class="empty-response" *ngIf="recruiters.content && recruiters.content.length <= 0">
+    <p class="empty-response" *ngIf="recruiterResponse.content && recruiterResponse.content.length <= 0">
       No recruiters available
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <mat-paginator class="paginator" [length]="recruiters.totalElement" *ngIf="recruiters.content && recruiters.content.length > 0"
+    <!-- <mat-paginator class="paginator" [length]="recruiters.totalElement" *ngIf="recruiters.content && recruiters.content.length > 0"
     [pageSize]="recruiters.sizeOfEachPage" [pageIndex]="pageIndex" (page)="handlePageEvent($event)">
 
-    </mat-paginator>
+    </mat-paginator> -->
   </mat-card-actions>
 </mat-card>
 
