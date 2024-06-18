@@ -1,7 +1,6 @@
 import { Routes } from "@angular/router";
 import { AddRecruiterComponent } from "./add-recruiter/add-recruiter.component";
 import { authGuard } from "../../core/auth-guard/auth.guard";
-import { RecruitersComponent } from "./recruiters.component";
 import { OverviewComponent } from "./overview-recruiters/overview.component";
 import { EditRecruiterComponent } from "./edit-recruiter/edit-recruiter.component";
 
@@ -9,19 +8,9 @@ import { EditRecruiterComponent } from "./edit-recruiter/edit-recruiter.componen
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'overview',
-    pathMatch: 'full',
-  },
-  {
-    path: '',
-    component: RecruitersComponent,
+    component: OverviewComponent,
     canActivate: [authGuard],
     children: [
-      {
-        path: 'overview',
-        component: OverviewComponent,
-        canActivate: [authGuard]
-      },
       {
         path: 'add',
         component: AddRecruiterComponent,

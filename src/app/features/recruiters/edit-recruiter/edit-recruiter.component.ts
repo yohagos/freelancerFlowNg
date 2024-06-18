@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { RecruiterService } from '../../../services/services';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RecruiterRequest, RecruiterResponse } from '../../../services/models';
 import { CompareObjectsService } from '../../../shared/utils/compare.objects.service';
@@ -26,7 +26,7 @@ import { CompareObjectsService } from '../../../shared/utils/compare.objects.ser
   templateUrl: './edit-recruiter.component.html',
   styleUrl: './edit-recruiter.component.scss'
 })
-export class EditRecruiterComponent implements OnInit {
+export class EditRecruiterComponent {
   private _router = inject(Router)
   private _activatedRoute = inject(ActivatedRoute)
   private _compareService = inject(CompareObjectsService)
@@ -42,18 +42,28 @@ export class EditRecruiterComponent implements OnInit {
 
   previousRecruiter!: RecruiterResponse
 
-  ngOnInit() {
+  constructor() {
     let id = this._activatedRoute.snapshot.paramMap.get('id')
     if (id !== null) {
-      this._recruiterService.getRecruiter({
-        recruiterId: id as any
-      }).subscribe({
-        next: (data) => {
-          this.fillForm(data)
-          this.previousRecruiter = data
-        }
-      })
+
     }
+    this._router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd && e.url.includes('recruiter/edit')) {
+        let urlSeparated = e.url.split('/')
+        this.loadData(urlSeparated[urlSeparated.length-1])
+      }
+    })
+  }
+
+  loadData(id: any) {
+    this._recruiterService.getRecruiter({
+      recruiterId: id as any
+    }).subscribe({
+      next: (data) => {
+        this.fillForm(data)
+        this.previousRecruiter = data
+      }
+    })
   }
 
   fillForm(recruiter: RecruiterResponse) {

@@ -1,53 +1,27 @@
-<mat-card class="cards">
-  <mat-card-header class="card-headers">
-    <mat-card-title>
-      <h2>Overview: Recruiters</h2>
-    </mat-card-title>
-  </mat-card-header>
-  <mat-card-content *ngIf="recruiterResponse$ | async as recruiterResponse">
-    <mat-accordion >
-      <mat-expansion-panel *ngFor="let recruiter of recruiterResponse.content">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{recruiter?.agency}}
-          </mat-panel-title>
-          <mat-panel-description>
-            {{recruiter?.name}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="left-section">
-          <p>Agency:</p>
-          <p>Fullname:</p>
-          <p>Email:</p>
-          <p>Phone:</p>
-          <p>Website:</p>
-        </div>
-        <div class="middle-section">
-          <p>{{recruiter?.agency}}</p>
-          <p>{{recruiter?.name}}</p>
-          <p>{{recruiter?.email}}</p>
-          <p>{{recruiter?.phone}}</p>
-          <p>{{recruiter?.website}}</p>
-        </div>
-        <div class="right-section">
-          <button mat-icon-button (click)="editRecruiter(recruiter?.id)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button (click)="deleteRecruiter(recruiter)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
-    <p class="empty-response" *ngIf="recruiterResponse.content && recruiterResponse.content.length <= 0">
-      No recruiters available
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <!-- <mat-paginator class="paginator" [length]="recruiters.totalElement" *ngIf="recruiters.content && recruiters.content.length > 0"
-    [pageSize]="recruiters.sizeOfEachPage" [pageIndex]="pageIndex" (page)="handlePageEvent($event)">
+<mat-sidenav-container *ngIf="recruiterResponse$ | async as recs">
+  <mat-sidenav [opened]="open" mode="side">
+    <h2>Recruiters</h2>
+    <mat-list>
+      <mat-list-item class="item-btns" *ngFor="let item of recs.content" (click)="editRecruiter(item.id)">
+        <span matListItemTitle> {{ item.agency }} </span>
+            <span matListItemLine>
+              {{ item.name }}
+            </span>
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+ </mat-sidenav-container>
 
-    </mat-paginator> -->
-  </mat-card-actions>
-</mat-card>
+ <footer class="footer">
+  <button mat-raised-button color="primary" class="add-btn"
+    (click)="addRecruiter()">
+    +
+  </button>
+  <button mat-raised-button (click)="test()">
+    open
+  </button>
+ </footer>
 

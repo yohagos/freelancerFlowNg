@@ -1,25 +1,35 @@
-.left-section {
-  width: 32%;
-  float: left;
-}
+@import '../../../../styles.scss';
 
-.middle-section {
-  width: 30%;
-  float: left;
-}
-
-.right-section {
-  float: right;
+.item-btns {
   display: flex;
   flex-direction: column;
+  margin: 0.3em;
+  width: 95%;
 }
 
-.paginator {
-  margin: auto;
-  margin-right: 0;
+.item-btns:hover {
+  background-color: rgb(6, 94, 94);
 }
 
-.empty-response {
-  display: flex;
-  justify-content: center;
+.item-btns:active {
+  background-color: teal;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 0.7em;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  background-color: var(--primary-dark);
+}
+
+mat-sidenav {
+  width: 25% !important;
+}
+
+mat-sidenav-container {
+  height: 90%;
+  max-height: max-content;
 }
