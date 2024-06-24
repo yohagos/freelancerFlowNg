@@ -42,7 +42,7 @@ export class AddRecruiterComponent {
       this._recruiterService.saveRecruiter({
         body: req
       }).subscribe({
-        next: (res) => {
+        next: () => {
           this.router.navigate(['/recruiter'])
         },
         error: (err) => {

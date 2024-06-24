@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterContentInit, Component, ElementRef, HostBinding, OnInit, Renderer2, ViewChild, inject } from '@angular/core';
 import { RecruiterService } from '../../../services/services';
 import { PageResponseRecruiterResponse, RecruiterResponse } from '../../../services/models';
 import { MatCardModule } from '@angular/material/card';
@@ -10,9 +10,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogService } from '../../../shared/confirm-dialog/confirm-dialog.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenav, MatSidenavModule } from "@angular/material/sidenav";
+import { ThemeService } from '../../../core/theme/theme.service';
 
 
 @Component({
@@ -34,10 +35,12 @@ import { MatSidenav, MatSidenavModule } from "@angular/material/sidenav";
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, AfterContentInit {
   private _router = inject(Router)
   private _recruiterService = inject(RecruiterService)
   private _confirmDialogService = inject(ConfirmDialogService)
+  private _themeService = inject(ThemeService)
+  private _renderer = inject(Renderer2)
 
   size = 10
   page = 0
@@ -48,8 +51,33 @@ export class OverviewComponent implements OnInit {
 
   open = true
 
+  constructor() {
+    /*this._themeService._getColorSubject().subscribe((e) => {
+       if (e === 'dark') {
+        this._renderer.setStyle(this.footer?.nativeElement, 'background-color', 'var(--primary-dark)')
+      } else {
+        this._renderer.setStyle(this.footer?.nativeElement, 'background-color', 'var(--primary-light)')
+      }
+
+    })*/
+  }
+
   ngOnInit() {
     this.loadData()
+  }
+
+  ngAfterContentInit(): void {
+    const footer = document.getElementById('footer')
+
+    this._themeService._getColorSubject().subscribe((scheme) => {
+      if (footer) {
+        if (scheme === 'dark') {
+          this._renderer.setStyle(footer, 'background-color', 'var(--primary-dark)')
+        } else {
+          this._renderer.setStyle(footer, 'background-color', 'var(--primary-light)')
+        }
+      }
+    })
   }
 
   loadData() {
@@ -72,7 +100,8 @@ export class OverviewComponent implements OnInit {
     this._router.navigate(['/recruiter/add'])
   }
 
-  deleteRecruiter(recruiter: RecruiterResponse) {
+  deleteRecruiter(recruiter: RecruiterResponse, event: Event) {
+    event.stopPropagation()
     this._confirmDialogService.confirm().subscribe((result) => {
       if (result && recruiter.id != null ) {
         this._recruiterService.deleteRecruiterById({
@@ -89,12 +118,7 @@ export class OverviewComponent implements OnInit {
     })
   }
 
-  test() {
+  openList() {
     this.open = !this.open
-    console.log('open')
-  }
-
-  test2(x: any) {
-    console.log(x)
   }
 }

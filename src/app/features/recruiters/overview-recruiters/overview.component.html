@@ -3,10 +3,17 @@
     <h2>Recruiters</h2>
     <mat-list>
       <mat-list-item class="item-btns" *ngFor="let item of recs.content" (click)="editRecruiter(item.id)">
-        <span matListItemTitle> {{ item.agency }} </span>
-            <span matListItemLine>
-              {{ item.name }}
-            </span>
+          <span matListItemTitle>
+            {{ item.agency }}
+            <button class="delete-btn" mat-icon-button (click)="deleteRecruiter(item, $event)" >
+              <mat-icon matSuffix >
+                delete
+              </mat-icon>
+            </button>
+          </span>
+          <span matListItemLine>
+            {{ item.name }}
+          </span>
       </mat-list-item>
     </mat-list>
   </mat-sidenav>
@@ -15,13 +22,15 @@
   </mat-sidenav-content>
  </mat-sidenav-container>
 
- <footer class="footer">
+ <footer id="footer">
+  <button mat-raised-button (click)="openList()">
+    <mat-icon>
+      menu
+    </mat-icon>
+  </button>
   <button mat-raised-button color="primary" class="add-btn"
     (click)="addRecruiter()">
     +
-  </button>
-  <button mat-raised-button (click)="test()">
-    open
   </button>
  </footer>
 

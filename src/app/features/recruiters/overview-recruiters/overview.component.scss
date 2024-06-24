@@ -15,14 +15,14 @@
   background-color: teal;
 }
 
-.footer {
+#footer {
   position: fixed;
   bottom: 0;
   width: 100%;
   padding: 0.7em;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
   z-index: 1000;
-  background-color: var(--primary-dark);
+  _background-color: var(--primary-light);
 }
 
 mat-sidenav {
@@ -32,4 +32,13 @@ mat-sidenav {
 mat-sidenav-container {
   height: 90%;
   max-height: max-content;
+}
+
+.delete-btn {
+  float: right;
+  overlay: auto;
+}
+
+.add-btn {
+  margin: 0.5em;
 }
